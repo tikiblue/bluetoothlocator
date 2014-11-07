@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BluetoothLocator</string>
+    <string name="found_devices">Found devices:</string>
+    <string name="start_scanning">Start scanning!</string>
+
+</resources>
