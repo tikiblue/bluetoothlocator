@@ -3,69 +3,59 @@ package de.ur.mi.bluetoothlocator;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import de.ur.mi.bluetoothlocator.bt.BTDevice;
+import de.ur.mi.bluetoothlocator.bt.BTScanner;
 import de.ur.mi.bluetoothlocator.bt.BlueTooth;
-import de.ur.mi.bluetoothlocator.bt.BluetoothLocator;
+import de.ur.mi.bluetoothlocator.interfaces.BluetoothLocator;
+import de.ur.mi.bluetoothlocator.services.BTService;
 
-public class MainActivity extends Activity implements BluetoothLocator, OnClickListener{
+public class MainActivity extends Activity implements OnClickListener{
 	
-	private BlueTooth bt;
 	private TextView text;
-	private Button go;
-	private ArrayList<BTDevice> devices = new ArrayList<BTDevice>();
+	private Button go, refresh;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initGUI();
-		startBlueTooth();
 	}
 
 	private void initGUI() {
 		text = (TextView)findViewById(R.id.textbox);
 		go = (Button)findViewById(R.id.startbutton);
+		refresh = (Button)findViewById(R.id.refreshbutton);
 		
 		go.setOnClickListener(this);
-	}
-
-	private void startBlueTooth() {
-		bt = new BlueTooth(this);
-		bt.addLocator(this);
-		if(bt.blueToothSupported()){
-			bt.enableBluetooth();
-		}else{
-			this.finish();
-		}
+		refresh.setOnClickListener(this);
 	}
 	
 	@Override
 	protected void onDestroy() {
-		bt.stopDiscovering();
 		super.onDestroy();
 	}
-
+	
 	@Override
-	public void onBluetoothDeviceLocated(BTDevice device) {
-		addDeviceToList(device);
-		updateTextBox();
+	protected void onResume() {
+		checkService();
+		super.onResume();
 	}
 
-	private void addDeviceToList(BTDevice device) {
-		if(devices.contains(device)){
-			int index = devices.indexOf(device);
-			devices.get(index).update(device);
+	private void checkService() {
+		if(serviceRunning()){
+			go.setText(getString(R.string.stop_scanning));
 		}else{
-			devices.add(device);
+			go.setText(getString(R.string.start_scanning));
 		}
 	}
 
-	private void updateTextBox() {
+	private void updateTextBox(ArrayList<BTDevice> devices) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(getString(R.string.found_devices));
 		for(BTDevice device : devices){
@@ -76,7 +66,40 @@ public class MainActivity extends Activity implements BluetoothLocator, OnClickL
 
 	@Override
 	public void onClick(View v) {
-		bt.startDiscovering();
-		go.setEnabled(false);
+		switch(v.getId()){
+		case R.id.startbutton:
+			toggleService();
+			break;
+		case R.id.refreshbutton:
+			refreshList();
+			break;
+		}
+	}
+
+	private void refreshList() {
+		updateTextBox(BTScanner.getAllFoundDevices());
+	}
+
+	private void toggleService() {
+		if(serviceRunning()){
+			stopService();
+		}else{
+			startService();
+		}
+		checkService();
+	}
+
+	private boolean serviceRunning() {
+		return BTService.running;
+	}
+
+	private void startService() {
+		Intent i= new Intent(this, BTService.class);
+		startService(i); 
+	}
+	
+	private void stopService() {
+		Intent i= new Intent(this, BTService.class);
+		stopService(i);
 	}
 }

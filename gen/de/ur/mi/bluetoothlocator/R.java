@@ -1669,6 +1669,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f090007;
         public static final int progress_horizontal=0x7f090008;
         public static final int radio=0x7f09002d;
+        public static final int refreshbutton=0x7f090042;
         public static final int search_badge=0x7f090037;
         public static final int search_bar=0x7f090036;
         public static final int search_button=0x7f090038;
@@ -1687,7 +1688,7 @@ containing a value of this type.
         public static final int startbutton=0x7f090041;
         public static final int submit_area=0x7f09003e;
         public static final int tabMode=0x7f09000c;
-        public static final int textbox=0x7f090042;
+        public static final int textbox=0x7f090043;
         public static final int title=0x7f090029;
         public static final int top=0x7f09001f;
         public static final int up=0x7f090001;
@@ -1803,7 +1804,9 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000d;
         public static final int app_name=0x7f0a000f;
         public static final int found_devices=0x7f0a0010;
+        public static final int refresh=0x7f0a0013;
         public static final int start_scanning=0x7f0a0011;
+        public static final int stop_scanning=0x7f0a0012;
     }
     public static final class style {
         /** 

@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.ViewDebug.FlagToString;
+import de.ur.mi.bluetoothlocator.interfaces.BluetoothLocator;
 
 public class BlueTooth {
 	
@@ -22,7 +24,7 @@ public class BlueTooth {
 	public static final String TAG = "BLUETOOTH";
 	public static HashMap<String, Long> lastseen = new HashMap<String, Long>();
 	
-	private Scanner thread;
+	private ScannerThread thread;
 	private Handler threadHandler = new Handler(Looper.getMainLooper()){
 		@Override
         public void handleMessage(Message inputMessage) {
@@ -93,13 +95,14 @@ public class BlueTooth {
 	public void enableBluetooth(){
 		if (!adapter.isEnabled()) {
 		    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+		    enableBtIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		    context.startActivity(enableBtIntent);
 		}
 	}
 	
 	public void startDiscovering(){
 		scanning = true;
-		thread = new Scanner(threadHandler);
+		thread = new ScannerThread(threadHandler);
 		thread.start();
 	}
 	

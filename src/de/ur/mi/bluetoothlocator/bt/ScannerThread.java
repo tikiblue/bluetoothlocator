@@ -4,14 +4,14 @@ import android.os.Handler;
 import android.os.Message;
 
 
-public class Scanner extends Thread{
+public class ScannerThread extends Thread{
 	
 	private Handler handler;
 	private boolean running = true;
 	
 	public static final long WAIT_TIME = 1000;
 	
-	public Scanner(Handler handler){
+	public ScannerThread(Handler handler){
 		this.handler = handler;
 	}
 	

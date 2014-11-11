@@ -10,11 +10,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
     
+    <Button 
+        android:text="@string/refresh"
+        android:id="@+id/refreshbutton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startbutton"/>
+    
     <TextView
         android:id="@+id/textbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/found_devices"
-        android:layout_below="@id/startbutton" />
+        android:layout_below="@id/refreshbutton" />
 
 </RelativeLayout>
