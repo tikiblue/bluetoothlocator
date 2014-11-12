@@ -374,7 +374,6 @@ int id normal 0x7f09000b
 int id progress_circular 0x7f090007
 int id progress_horizontal 0x7f090008
 int id radio 0x7f09002d
-int id refreshbutton 0x7f090042
 int id search_badge 0x7f090037
 int id search_bar 0x7f090036
 int id search_button 0x7f090038
@@ -390,6 +389,7 @@ int id showCustom 0x7f090010
 int id showHome 0x7f090011
 int id showTitle 0x7f090012
 int id split_action_bar 0x7f090004
+int id ssid 0x7f090042
 int id startbutton 0x7f090041
 int id submit_area 0x7f09003e
 int id tabMode 0x7f09000c
@@ -442,8 +442,9 @@ int string abc_searchview_description_voice 0x7f0a000a
 int string abc_shareactionprovider_share_with 0x7f0a000e
 int string abc_shareactionprovider_share_with_application 0x7f0a000d
 int string app_name 0x7f0a000f
+int string default_ssid 0x7f0a0013
 int string found_devices 0x7f0a0010
-int string refresh 0x7f0a0013
+int string ssid_hint 0x7f0a0014
 int string start_scanning 0x7f0a0011
 int string stop_scanning 0x7f0a0012
 int style AppBaseTheme 0x7f0b00eb
