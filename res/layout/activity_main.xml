@@ -24,5 +24,18 @@
         android:layout_height="wrap_content"
         android:text="@string/found_devices"
         android:layout_below="@id/ssid" />
+    
+     <EditText 
+        android:hint="@string/note_hint"
+        android:id="@+id/note"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+     
+     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/note_label"
+        android:layout_above="@id/note" />
 
 </RelativeLayout>

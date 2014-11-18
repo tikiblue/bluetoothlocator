@@ -1666,6 +1666,7 @@ containing a value of this type.
         public static final int never=0x7f090017;
         public static final int none=0x7f09000f;
         public static final int normal=0x7f09000b;
+        public static final int note=0x7f090044;
         public static final int progress_circular=0x7f090007;
         public static final int progress_horizontal=0x7f090008;
         public static final int radio=0x7f09002d;
@@ -1805,6 +1806,8 @@ containing a value of this type.
         public static final int app_name=0x7f0a000f;
         public static final int default_ssid=0x7f0a0013;
         public static final int found_devices=0x7f0a0010;
+        public static final int note_hint=0x7f0a0016;
+        public static final int note_label=0x7f0a0015;
         public static final int ssid_hint=0x7f0a0014;
         public static final int start_scanning=0x7f0a0011;
         public static final int stop_scanning=0x7f0a0012;

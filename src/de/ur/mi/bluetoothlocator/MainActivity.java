@@ -1,5 +1,6 @@
 package de.ur.mi.bluetoothlocator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +17,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import de.ur.mi.bluetoothlocator.bt.ScannerThread;
+import de.ur.mi.bluetoothlocator.data.CSVWriter;
 import de.ur.mi.bluetoothlocator.services.ScanService;
 
 public class MainActivity extends Activity implements OnClickListener{
 	
+	//private static final String TAG = "MainActivity";
 	private TextView text;
 	private Button go;
-	private EditText ssid;
+	private EditText ssid, note;
+	
+	private CSVWriter writer = new CSVWriter();
 	
 	private String ssidFilter = "";
 	
@@ -45,6 +50,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		text = (TextView)findViewById(R.id.textbox);
 		go = (Button)findViewById(R.id.startbutton);
 		ssid = (EditText)findViewById(R.id.ssid);
+		note = (EditText)findViewById(R.id.note);
 		
 		go.setOnClickListener(this);
 		ssid.addTextChangedListener(tw);
@@ -79,6 +85,15 @@ public class MainActivity extends Activity implements OnClickListener{
 			builder.append("\n"+formatNetwork(network));
 		}
 		text.setText(builder.toString());
+	}
+	
+	private void writeToFile(List<ScanResult> networks, String note){
+		networks = formatList(networks);
+		try {
+			writer.writeToFile("WLAN_SCANS", networks, note);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private List<ScanResult> formatList(List<ScanResult> networks) {
@@ -130,14 +145,20 @@ public class MainActivity extends Activity implements OnClickListener{
 		stopService(i);
 	}
 	
+	private String getOptionalNote() {
+		return note.getText().toString();
+	}
+	
 	class AsyncUpdater extends AsyncTask<Object, Object, Object>{
 
 		@Override
 		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
-			updateTextBox(ScanService.getWifiList());			
+			updateTextBox(ScanService.getWifiList());
+			String note = getOptionalNote();
+			writeToFile(ScanService.getWifiList(), note);
 		}
-		
+
 		@Override
 		protected Object doInBackground(Object... params) {
 			while(ScanService.running){

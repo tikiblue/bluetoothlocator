@@ -7,5 +7,7 @@
     <string name="stop_scanning">Stop scanning!</string>
     <string name="default_ssid"></string>
     <string name="ssid_hint">SSID filter</string>
+    <string name="note_label">optional note:</string>
+    <string name="note_hint">eg. position description</string>
 
 </resources>
