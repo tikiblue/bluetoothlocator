@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import de.ur.mi.bluetoothlocator.bt.ScannerThread;
+import de.ur.mi.bluetoothlocator.scanner.ScannerThread;
 
 public class ScanService extends Service {
 

@@ -29,6 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name=".TrackActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="de.ur.mi.bluetoothlocator.services.ScanService"

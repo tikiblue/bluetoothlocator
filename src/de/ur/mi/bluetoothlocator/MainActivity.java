@@ -16,15 +16,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import de.ur.mi.bluetoothlocator.bt.ScannerThread;
 import de.ur.mi.bluetoothlocator.data.CSVWriter;
+import de.ur.mi.bluetoothlocator.scanner.ScannerThread;
 import de.ur.mi.bluetoothlocator.services.ScanService;
 
 public class MainActivity extends Activity implements OnClickListener{
 	
 	//private static final String TAG = "MainActivity";
 	private TextView text;
-	private Button go;
+	private Button go, map;
 	private EditText ssid, note;
 	
 	private CSVWriter writer = new CSVWriter();
@@ -49,10 +49,12 @@ public class MainActivity extends Activity implements OnClickListener{
 	private void initGUI() {
 		text = (TextView)findViewById(R.id.textbox);
 		go = (Button)findViewById(R.id.startbutton);
+		map = (Button)findViewById(R.id.mapbutton);
 		ssid = (EditText)findViewById(R.id.ssid);
 		note = (EditText)findViewById(R.id.note);
 		
 		go.setOnClickListener(this);
+		map.setOnClickListener(this);
 		ssid.addTextChangedListener(tw);
 		ssidFilter = ssid.getText().toString();
 	}
@@ -115,6 +117,9 @@ public class MainActivity extends Activity implements OnClickListener{
 		switch(v.getId()){
 		case R.id.startbutton:
 			toggleService();
+			break;
+		case R.id.mapbutton:
+			startActivity(new Intent(this, TrackActivity.class));
 			break;
 		}
 	}

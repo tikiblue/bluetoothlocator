@@ -24,13 +24,21 @@
         android:layout_height="wrap_content"
         android:text="@string/found_devices"
         android:layout_below="@id/ssid" />
+     
+     <Button 
+        android:text="@string/map"
+        android:id="@+id/mapbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
     
      <EditText 
         android:hint="@string/note_hint"
         android:id="@+id/note"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_above="@id/mapbutton"/>
      
      <TextView
         android:layout_width="wrap_content"

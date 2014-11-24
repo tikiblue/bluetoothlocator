@@ -1,4 +1,4 @@
-package de.ur.mi.bluetoothlocator.bt;
+package de.ur.mi.bluetoothlocator.scanner;
 
 import java.util.List;
 
