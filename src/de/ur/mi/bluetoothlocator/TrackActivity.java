@@ -84,13 +84,14 @@ public class TrackActivity extends Activity implements OnClickListener, Percenta
 	}
 
 	private void updatePosition(List<ScanResult> wifiList) {
-		WifiPosition pos = calc.calculatePosition(wifiList, knownPositions);
+		double[] pos = calc.calculateNetworkSimilarities(wifiList, knownPositions);
 		if(pos == null)return;
-		double x = pos.getX();
-		double y = pos.getY();
-		Log.d(TAG, "position calculated: "+x+", "+y);
-		position.setX(x);
-		position.setY(y);
+		pos = calc.reworkSimilarities(pos);
+		Log.d(TAG, "Similarities:");
+		for(Double d:pos){
+			Log.d(TAG, "sim: "+d);
+		}
+		position.setPoints(knownPositions, pos);
 		position.invalidate();
 	}
 

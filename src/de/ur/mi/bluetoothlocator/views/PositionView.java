@@ -1,6 +1,9 @@
 package de.ur.mi.bluetoothlocator.views;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import de.ur.mi.bluetoothlocator.position.WifiPosition;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,28 +16,17 @@ import android.view.View;
 
 public class PositionView extends View {
 
-	private double x, y;
-	private float radius = 5;
+	private List<WifiPosition> positions;
+	private double[] sizes;
+	private float radius = 64;
 	private ArrayList<PercentageClickListener> listeners = new ArrayList<PercentageClickListener>();
 	
 	public PositionView(Context context) {
 		super(context);
-		x = -1000;
-		y = -1000;
 	}
 	
 	public PositionView(Context context, AttributeSet set) {
 		super(context, set);
-	}
-	
-	public void setX(double x){
-		this.x = x;
-        invalidate();
-	}
-	
-	public void setY(double y){
-		this.y = y;
-        invalidate();
 	}
 
 	@Override
@@ -81,10 +73,22 @@ public class PositionView extends View {
         p.setAntiAlias(true);
         
         c.drawRect(new RectF(0,0,getWidth(),getHeight()), p);
-        float xPos = (float)x*getWidth()/100;
-        float yPos = (float)y*getHeight()/100;
-        p.setColor(Color.RED);
-        c.drawCircle(xPos, yPos, radius, p);
+        if(positions == null)return;
+        if(sizes == null)return;
+        if(sizes.length != positions.size())return;
+        for(int i=0; i<sizes.length; i++){
+        	double x = positions.get(i).getX();
+        	double y = positions.get(i).getY();
+            float xPos = (float)x*getWidth()/100;
+            float yPos = (float)y*getHeight()/100;
+            p.setColor(Color.RED);
+            c.drawCircle(xPos, yPos, (int)(radius*sizes[i]), p);
+        }
+	}
+
+	public void setPoints(List<WifiPosition> positions, double[] sizes) {
+		this.positions = positions;
+		this.sizes = sizes;
 	}
 	
 }
