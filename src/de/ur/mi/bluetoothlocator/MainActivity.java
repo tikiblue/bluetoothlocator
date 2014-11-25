@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import de.ur.mi.bluetoothlocator.data.CSVWriter;
+import de.ur.mi.bluetoothlocator.data.ListFilter;
 import de.ur.mi.bluetoothlocator.scanner.ScannerThread;
 import de.ur.mi.bluetoothlocator.services.ScanService;
 
@@ -99,13 +100,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	}
 
 	private List<ScanResult> formatList(List<ScanResult> networks) {
-		List<ScanResult> result = new ArrayList<ScanResult>();
-		for(ScanResult network : networks){
-			if(network.SSID.toLowerCase().contains(ssidFilter.toLowerCase())){
-				result.add(network);
-			}
-		}
-		return result;
+		return ListFilter.filterList(networks, ssidFilter);
 	}
 
 	private String formatNetwork(ScanResult network) {
@@ -119,9 +114,15 @@ public class MainActivity extends Activity implements OnClickListener{
 			toggleService();
 			break;
 		case R.id.mapbutton:
-			startActivity(new Intent(this, TrackActivity.class));
+			startMap();
 			break;
 		}
+	}
+
+	private void startMap() {
+		Intent intent = new Intent(this, TrackActivity.class);
+		intent.putExtra("ssid", ssidFilter);
+		startActivity(intent);
 	}
 
 	private void toggleService() {

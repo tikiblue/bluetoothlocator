@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import de.ur.mi.bluetoothlocator.data.ListFilter;
 import de.ur.mi.bluetoothlocator.position.WifiPosition;
 import de.ur.mi.bluetoothlocator.scanner.ScannerThread;
 import de.ur.mi.bluetoothlocator.services.ScanService;
@@ -26,6 +27,8 @@ public class TrackActivity extends Activity implements OnClickListener, Percenta
 	private PositionCalculator calc;
 	private List<WifiPosition> knownPositions = new ArrayList<WifiPosition>();
 	
+	private String ssidFilter = "";
+	
 	public static final String TAG = "TRACKER";
 	
 	@Override
@@ -33,6 +36,7 @@ public class TrackActivity extends Activity implements OnClickListener, Percenta
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tracker);
 		calc = new PositionCalculator();
+		ssidFilter = getIntent().getStringExtra("ssid");
 		initGUI();
 		new AsyncUpdater().execute();
 	}
@@ -84,6 +88,7 @@ public class TrackActivity extends Activity implements OnClickListener, Percenta
 	}
 
 	private void updatePosition(List<ScanResult> wifiList) {
+		wifiList = ListFilter.filterList(wifiList, ssidFilter);
 		double[] pos = calc.calculateNetworkSimilarities(wifiList, knownPositions);
 		if(pos == null)return;
 		pos = calc.reworkSimilarities(pos);
@@ -137,7 +142,9 @@ public class TrackActivity extends Activity implements OnClickListener, Percenta
 	@Override
 	public void onPercentageClicked(float x, float y) {
 		Log.d(TAG, "clicked on: "+x+", "+y);
-		WifiPosition currentPosition = new WifiPosition(x, y, ScanService.getWifiList());
+		List<ScanResult> wifiList = ScanService.getWifiList();
+		wifiList = ListFilter.filterList(wifiList, ssidFilter);
+		WifiPosition currentPosition = new WifiPosition(x, y, wifiList);
 		knownPositions.add(currentPosition);
 	}
 }
