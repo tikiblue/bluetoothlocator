@@ -10,5 +10,6 @@
     <string name="note_label">optional note:</string>
     <string name="note_hint">eg. position description</string>
     <string name="map">Map</string>
+    <string name="tracking">Tracking for some time ... dont move!</string>
 
 </resources>

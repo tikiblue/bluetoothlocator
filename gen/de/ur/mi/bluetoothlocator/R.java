@@ -1815,6 +1815,7 @@ containing a value of this type.
         public static final int ssid_hint=0x7f0a0014;
         public static final int start_scanning=0x7f0a0011;
         public static final int stop_scanning=0x7f0a0012;
+        public static final int tracking=0x7f0a0018;
     }
     public static final class style {
         /** 

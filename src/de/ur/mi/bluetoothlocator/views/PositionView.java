@@ -17,7 +17,7 @@ import android.view.View;
 public class PositionView extends View {
 
 	private List<WifiPosition> positions;
-	private double[] sizes;
+	private double[] sizes = new double[0];
 	private float radius = 64;
 	private ArrayList<PercentageClickListener> listeners = new ArrayList<PercentageClickListener>();
 	
@@ -72,6 +72,8 @@ public class PositionView extends View {
         p.setColor(Color.GRAY);
         p.setAntiAlias(true);
         
+        double max = getMaxSize();
+        
         c.drawRect(new RectF(0,0,getWidth(),getHeight()), p);
         if(positions == null)return;
         if(sizes == null)return;
@@ -81,9 +83,23 @@ public class PositionView extends View {
         	double y = positions.get(i).getY();
             float xPos = (float)x*getWidth()/100;
             float yPos = (float)y*getHeight()/100;
-            p.setColor(Color.RED);
+            if(sizes[i] == max){
+            	p.setColor(Color.GREEN);
+            }else{
+            	p.setColor(Color.LTGRAY);
+            }
             c.drawCircle(xPos, yPos, (int)(radius*sizes[i]), p);
         }
+	}
+
+	private double getMaxSize() {
+		double max = 0;
+		for(int i=0; i<sizes.length; i++){
+			if(sizes[i]>max){
+				max = sizes[i];
+			}
+		}
+		return max;
 	}
 
 	public void setPoints(List<WifiPosition> positions, double[] sizes) {

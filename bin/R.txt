@@ -454,6 +454,7 @@ int string note_label 0x7f0a0015
 int string ssid_hint 0x7f0a0014
 int string start_scanning 0x7f0a0011
 int string stop_scanning 0x7f0a0012
+int string tracking 0x7f0a0018
 int style AppBaseTheme 0x7f0b00eb
 int style AppTheme 0x7f0b00ec
 int style Base_TextAppearance_AppCompat 0x7f0b0098
