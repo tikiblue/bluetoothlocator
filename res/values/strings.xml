@@ -11,5 +11,16 @@
     <string name="note_hint">eg. position description</string>
     <string name="map">Map</string>
     <string name="tracking">Tracking for some time ... dont move!</string>
+    <string name="calibrate">Calibrate</string>
+    <string name="fetching">Fetching calibration data ...</string>
+    <string name="progress">. . .</string>
+    <string name="next">Ok</string>
+    <string name="downloaderror">Error downloading calibration data :(</string>
+    <string name="gotoposition">Please go to position $1</string>
+    <string name="jsonerror">Calibration data is corrupted :(</string>
+    <string name="saveerror">Error saving to SD-Card :(</string>
+    <string name="saving">Saving calibration data to SD-Card</string>
+    <string name="success">Success :)</string>
+    <string name="setssid">Which SSID belongs to id $1 in the calibration JSON?</string>
 
 </resources>

@@ -9,6 +9,9 @@
   	
   	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  	
+    <uses-permission android:name="android.permission.INTERNET"/>
+  	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -32,6 +35,11 @@
         
         <activity
             android:name=".TrackActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        
+        <activity
+            android:name=".CalibrateActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
 

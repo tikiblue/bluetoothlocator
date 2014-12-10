@@ -25,20 +25,34 @@
         android:text="@string/found_devices"
         android:layout_below="@id/ssid" />
      
-     <Button 
-        android:text="@string/map"
-        android:id="@+id/mapbutton"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/footer" 
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentBottom="true">
+    
+	    <Button
+	        android:text="@string/calibrate"
+	        android:id="@+id/calibratebutton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"/>
+	        
+	    <Button
+	        android:text="@string/map"
+	        android:id="@+id/mapbutton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"/>
+        
+    </RelativeLayout>
     
      <EditText 
         android:hint="@string/note_hint"
         android:id="@+id/note"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/mapbutton"/>
+        android:layout_above="@id/footer"/>
      
      <TextView
         android:layout_width="wrap_content"

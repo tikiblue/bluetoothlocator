@@ -37,9 +37,9 @@ public class CSVWriter {
 		write(file, content+"\n"+csvString);
 	}
 
-	private void write(File file, String csvString) throws IOException {
+	public static void write(File file, String str) throws IOException {
 		FileWriter writer = new FileWriter(file);
-		writer.write(csvString);
+		writer.write(str);
 		writer.flush();
 		writer.close();
 	}

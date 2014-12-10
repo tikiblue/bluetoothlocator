@@ -25,7 +25,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	
 	//private static final String TAG = "MainActivity";
 	private TextView text;
-	private Button go, map;
+	private Button go, map, calibrate;
 	private EditText ssid, note;
 	
 	private CSVWriter writer = new CSVWriter();
@@ -51,11 +51,13 @@ public class MainActivity extends Activity implements OnClickListener{
 		text = (TextView)findViewById(R.id.textbox);
 		go = (Button)findViewById(R.id.startbutton);
 		map = (Button)findViewById(R.id.mapbutton);
+		calibrate = (Button)findViewById(R.id.calibratebutton);
 		ssid = (EditText)findViewById(R.id.ssid);
 		note = (EditText)findViewById(R.id.note);
 		
 		go.setOnClickListener(this);
 		map.setOnClickListener(this);
+		calibrate.setOnClickListener(this);
 		ssid.addTextChangedListener(tw);
 		ssidFilter = ssid.getText().toString();
 	}
@@ -116,11 +118,20 @@ public class MainActivity extends Activity implements OnClickListener{
 		case R.id.mapbutton:
 			startMap();
 			break;
+		case R.id.calibratebutton:
+			startCalibration();
+			break;
 		}
 	}
 
 	private void startMap() {
 		Intent intent = new Intent(this, TrackActivity.class);
+		intent.putExtra("ssid", ssidFilter);
+		startActivity(intent);
+	}
+	
+	private void startCalibration() {
+		Intent intent = new Intent(this, CalibrateActivity.class);
 		intent.putExtra("ssid", ssidFilter);
 		startActivity(intent);
 	}

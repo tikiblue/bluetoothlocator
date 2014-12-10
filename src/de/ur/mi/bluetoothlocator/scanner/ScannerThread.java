@@ -39,15 +39,20 @@ public class ScannerThread extends Thread {
 	}
 
 	private void scanWifi() {
-		WifiManager wManager;
-		List<ScanResult> wifiList;
-		wManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		wManager.startScan();
-		wifiList = wManager.getScanResults();
+		List<ScanResult> wifiList = scanWifi(context);
 		onScanResult(wifiList);
 		Message msg = new Message();
 		msg.obj = wifiList;
 		handler.dispatchMessage(msg);
+	}
+	
+	public static List<ScanResult> scanWifi(Context c){
+		WifiManager wManager;
+		List<ScanResult> wifiList;
+		wManager = (WifiManager)c.getSystemService(Context.WIFI_SERVICE);
+		wManager.startScan();
+		List<ScanResult> scan = wManager.getScanResults();
+		return scan;
 	}
 
 	private void onScanResult(List<ScanResult> wifiList) {
