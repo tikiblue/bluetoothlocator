@@ -1,10 +1,7 @@
 package de.ur.mi.bluetoothlocator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -21,6 +18,7 @@ import de.ur.mi.bluetoothlocator.data.ListFilter;
 import de.ur.mi.bluetoothlocator.position.WifiPosition;
 import de.ur.mi.bluetoothlocator.scanner.ScannerThread;
 import de.ur.mi.bluetoothlocator.services.ScanService;
+import de.ur.mi.bluetoothlocator.tracker.MeanCalculator;
 import de.ur.mi.bluetoothlocator.tracker.PositionCalculator;
 import de.ur.mi.bluetoothlocator.views.PercentageClickListener;
 import de.ur.mi.bluetoothlocator.views.PositionView;
@@ -148,7 +146,7 @@ public class TrackActivity extends Activity implements OnClickListener,
 		@Override
 		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
-			updatePosition(ScanService.getWifiList());
+			updatePosition(ScanService.getMeanWifiList());
 		}
 
 		@Override
@@ -172,7 +170,6 @@ public class TrackActivity extends Activity implements OnClickListener,
 		private Context c;
 		private float x, y;
 		private ArrayList<List<ScanResult>> scans = new ArrayList<List<ScanResult>>();
-		private final int STEPS = 10;
 
 		public AsyncTracker(Context c, float x, float y) {
 			this.c = c;
@@ -197,14 +194,14 @@ public class TrackActivity extends Activity implements OnClickListener,
 		@Override
 		protected void onProgressUpdate(Object... values) {
 			int progress = pd.getProgress();
-			progress += 100/STEPS;
+			progress += 100/ScannerThread.MEAN_STEPS;
 			pd.setProgress(progress);
 		}
 
 		@Override
 		protected Object doInBackground(Object... params) {
 			try {
-				for (int i = 0; i < STEPS; i++) {
+				for (int i = 0; i < ScannerThread.MEAN_STEPS; i++) {
 					List<ScanResult> scan = ScanService.getWifiList();
 					scan = ListFilter.filterList(scan, ssidFilter);
 					scans.add(scan);
@@ -220,7 +217,7 @@ public class TrackActivity extends Activity implements OnClickListener,
 		@Override
 		protected void onPostExecute(Object result) {
 			pd.dismiss();
-			List<ScanResult> wifiList = calculateList(scans);
+			List<ScanResult> wifiList = MeanCalculator.calculateList(scans);
 			WifiPosition currentPosition = new WifiPosition(x, y, wifiList);
 			knownPositions.add(currentPosition);
 			
@@ -230,73 +227,6 @@ public class TrackActivity extends Activity implements OnClickListener,
 			}
 			
 			super.onPostExecute(result);
-		}
-
-		/**
-		 * calculates the average of the scans levels
-		 * 
-		 * @param scans
-		 * @return
-		 */
-		private List<ScanResult> calculateList(ArrayList<List<ScanResult>> scans) {
-			HashMap<String, ScanResult> results = new HashMap<String, ScanResult>();
-			for (List<ScanResult> scan : scans) {
-				for (ScanResult scanresult : scan) {
-					String key = scanresult.BSSID;
-					if (!results.containsKey(key)) {
-						scanresult.level = calculateMean(scanresult.BSSID,
-								scans);
-						results.put(key, scanresult);
-					}
-				}
-			}
-
-			return convertToArrayList(results);
-		}
-
-		/**
-		 * converts a hashmap to an arraylist (losing the keys)
-		 * 
-		 * @param results
-		 * @return
-		 */
-		private List<ScanResult> convertToArrayList(
-				HashMap<String, ScanResult> results) {
-			List<ScanResult> resultArray = new ArrayList<ScanResult>();
-
-			Set<String> bssids = results.keySet();
-			Iterator<String> i = bssids.iterator();
-			while (i.hasNext()) {
-				String key = i.next();
-				resultArray.add(results.get(key));
-			}
-			return resultArray;
-		}
-
-		/**
-		 * calculates the mean level of all networks in the given list with the
-		 * given bssid
-		 * 
-		 * @param bssid
-		 * @param scans
-		 * @return
-		 */
-		private int calculateMean(String bssid,
-				ArrayList<List<ScanResult>> scans) {
-			ArrayList<Integer> levels = new ArrayList<Integer>();
-			for (List<ScanResult> scan : scans) {
-				for (ScanResult scanresult : scan) {
-					if (scanresult.BSSID.equals(bssid)) {
-						levels.add(scanresult.level);
-					}
-				}
-			}
-			int mean = 0;
-			for (Integer i : levels) {
-				mean += i;
-			}
-			mean = mean / levels.size();
-			return mean;
 		}
 
 	}
